@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌟 CleanVibes スケジュール</title>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div class="container">
+  <header class="page-header">
+    <h1>🌟 CleanVibes スケジュール</h1>
+    <p class="lead">現場・イベントへの参加可否を共有</p>
+  </header>
+
+  <nav class="tabs">
+    <button class="tab active" data-tab="site">🧹 現場</button>
+    <button class="tab" data-tab="event">🎉 その他イベント</button>
+  </nav>
+
+  <div class="tab-help" id="tab-help"></div>
+
+  <div class="name-input card" id="name-input-section" hidden>
+    <label class="field">
+      <span class="field-label">あなたの名前 <span class="required">必須</span><span class="hint">回答時に名前として表示されます（ブラウザに記憶）</span></span>
+      <input type="text" id="my-name" maxlength="50" placeholder="例：田中">
+    </label>
+  </div>
+
+  <div id="entries-list"></div>
+
+  <div class="card">
+    <h2 id="add-title">+ 現場を追加</h2>
+    <form id="add-form" class="add-form">
+      <label class="field field-title">
+        <span class="field-label" id="title-label">現場名 <span class="required">必須</span></span>
+        <input type="text" id="new-title" required maxlength="100" placeholder="例：大室山">
+      </label>
+      <label class="field field-date">
+        <span class="field-label">日付 <span class="required">必須</span></span>
+        <input type="date" id="new-date" required>
+      </label>
+      <label class="field field-time">
+        <span class="field-label">開始 <span class="required">必須</span></span>
+        <input type="time" id="new-start" value="09:00" step="300" required>
+      </label>
+      <label class="field field-time">
+        <span class="field-label">終了（任意）</span>
+        <input type="time" id="new-end" step="300">
+      </label>
+      <label class="field field-detail">
+        <span class="field-label">詳細・作業内容（任意）</span>
+        <input type="text" id="new-details" maxlength="500" placeholder="例：路肩、除草、苔">
+      </label>
+      <label class="field field-detail">
+        <span class="field-label">地図URL（任意・空欄なら自動検索）</span>
+        <input type="url" id="new-map" maxlength="500" placeholder="https://maps.app.goo.gl/...">
+      </label>
+      <div class="field field-submit">
+        <button type="submit" class="primary">追加</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<dialog id="edit-dialog" class="edit-dialog">
+  <form id="edit-form">
+    <h2>編集</h2>
+    <label class="field">
+      <span class="field-label" id="edit-title-label">タイトル</span>
+      <input type="text" id="edit-title-input" maxlength="100" required>
+    </label>
+    <div class="field-row">
+      <label class="field">
+        <span class="field-label">日付</span>
+        <input type="date" id="edit-date" required>
+      </label>
+      <label class="field">
+        <span class="field-label">開始</span>
+        <input type="time" id="edit-start" step="300" required>
+      </label>
+      <label class="field">
+        <span class="field-label">終了</span>
+        <input type="time" id="edit-end" step="300">
+      </label>
+    </div>
+    <label class="field">
+      <span class="field-label">詳細・作業内容</span>
+      <input type="text" id="edit-details" maxlength="500">
+    </label>
+    <label class="field">
+      <span class="field-label">地図URL（Google マップ等）</span>
+      <input type="url" id="edit-map" maxlength="500" placeholder="https://maps.app.goo.gl/...">
+    </label>
+    <div class="form-actions">
+      <button type="button" id="edit-save" class="primary">保存</button>
+      <button type="button" id="edit-cancel" class="secondary">キャンセル</button>
+      <button type="button" id="edit-delete" class="danger">削除</button>
+    </div>
+  </form>
+</dialog>
+
+<script src="/index.js"></script>
+</body>
+</html>

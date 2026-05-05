@@ -1,0 +1,17 @@
+{
+  "name": "cleanvibes-schedule",
+  "version": "1.0.0",
+  "description": "CleanVibes スケジュール調整アプリ",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "express": "^4.21.0",
+    "pg": "^8.13.1"
+  }
+}
