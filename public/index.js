@@ -89,20 +89,21 @@ function renderEntryCard(entry) {
   const mapUrl = buildMapUrl(entry);
   const myResponse = entry.responses.find(r => r.voter_id === VOTER_ID);
 
-  const byStatus = { '参加': [], '不参加': [], '未定': [] };
-  for (const r of entry.responses) byStatus[r.status]?.push(r);
+  const byStatus = { '参加': [], '未定': [] };
+  for (const r of entry.responses) {
+    if (byStatus[r.status]) byStatus[r.status].push(r);
+  }
 
   let responseHtml;
   if (entry.type === 'site') {
     responseHtml = `
       <div class="counts">
         <span class="count count-attend">${STATUS_LABEL['参加']} <strong>${byStatus['参加'].length}</strong></span>
-        <span class="count count-absent">${STATUS_LABEL['不参加']} <strong>${byStatus['不参加'].length}</strong></span>
         <span class="count count-undecided">${STATUS_LABEL['未定']} <strong>${byStatus['未定'].length}</strong></span>
       </div>
     `;
   } else {
-    const sections = ['参加', '不参加', '未定']
+    const sections = ['参加', '未定']
       .filter(st => byStatus[st].length > 0)
       .map(st => `
         <div class="chip-row">
@@ -132,7 +133,7 @@ function renderEntryCard(entry) {
       <div class="my-vote">
         <span class="my-vote-label">あなたの回答：</span>
         <div class="vote-buttons">
-          ${['参加', '不参加', '未定'].map(st => `
+          ${['参加', '未定'].map(st => `
             <button class="vote-btn vote-${STATUS_CLASS[st]} ${myResponse?.status === st ? 'selected' : ''}" data-vote="${st}" data-iid="${entry.id}">${STATUS_LABEL[st]}</button>
           `).join('')}
           ${myResponse ? `<button class="vote-btn vote-clear" data-clear="${entry.id}" title="自分の回答を取り消す">取消</button>` : ''}
