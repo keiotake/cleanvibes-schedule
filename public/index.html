@@ -29,35 +29,63 @@
 
   <div id="entries-list"></div>
 
-  <div class="card">
-    <h2 id="add-title">+ 現場を追加</h2>
-    <form id="add-form" class="add-form">
+  <!-- Add form for SITE -->
+  <div class="card add-card" id="add-card-site">
+    <h2>+ 現場を追加</h2>
+    <form id="add-form-site" class="add-form">
       <label class="field field-title">
-        <span class="field-label" id="title-label">現場名 <span class="required">必須</span></span>
-        <input type="text" id="new-title" required maxlength="100" placeholder="例：大室山">
+        <span class="field-label">現場名 <span class="required">必須</span></span>
+        <input type="text" id="new-site-title" required maxlength="100" placeholder="例：大室山">
       </label>
       <label class="field field-date">
         <span class="field-label">日付 <span class="required">必須</span></span>
-        <input type="date" id="new-date" required>
+        <input type="date" id="new-site-date" required>
       </label>
       <label class="field field-time">
         <span class="field-label">開始 <span class="required">必須</span></span>
-        <input type="time" id="new-start" value="09:00" step="300" required>
+        <input type="time" id="new-site-start" value="06:30" step="300" required>
       </label>
       <label class="field field-time">
         <span class="field-label">終了（任意）</span>
-        <input type="time" id="new-end" step="300">
+        <input type="time" id="new-site-end" step="300">
       </label>
       <label class="field field-detail">
         <span class="field-label">詳細・作業内容（任意）</span>
-        <input type="text" id="new-details" maxlength="500" placeholder="例：路肩、除草、苔">
+        <input type="text" id="new-site-details" maxlength="500" placeholder="例：路肩、除草、苔">
       </label>
       <label class="field field-detail">
         <span class="field-label">地図URL（任意・空欄なら自動検索）</span>
-        <input type="url" id="new-map" maxlength="500" placeholder="https://maps.app.goo.gl/...">
+        <input type="url" id="new-site-map" maxlength="500" placeholder="https://maps.app.goo.gl/...">
       </label>
       <div class="field field-submit">
         <button type="submit" class="primary">追加</button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Add form for EVENT (multi-slot) -->
+  <div class="card add-card" id="add-card-event" hidden>
+    <h2>+ イベントを追加</h2>
+    <form id="add-form-event" class="add-form-event">
+      <label class="field">
+        <span class="field-label">イベント名 <span class="required">必須</span></span>
+        <input type="text" id="new-event-title" required maxlength="100" placeholder="例：プロカメラマンの撮影日時">
+      </label>
+      <label class="field">
+        <span class="field-label">詳細・備考（任意）</span>
+        <input type="text" id="new-event-details" maxlength="500" placeholder="例：場所未定、撮影時間1時間程度">
+      </label>
+      <label class="field">
+        <span class="field-label">地図URL（任意）</span>
+        <input type="url" id="new-event-map" maxlength="500" placeholder="https://maps.app.goo.gl/...">
+      </label>
+      <div class="field">
+        <span class="field-label">候補日時 <span class="required">必須</span><span class="hint">複数追加できます。メンバーが日時ごとに参加可否を投票します。</span></span>
+        <div id="new-slots"></div>
+        <button type="button" id="add-slot-btn" class="add-slot-btn">+ 候補日時を追加</button>
+      </div>
+      <div class="field">
+        <button type="submit" class="primary">イベントを作成</button>
       </div>
     </form>
   </div>
@@ -65,31 +93,45 @@
 
 <dialog id="edit-dialog" class="edit-dialog">
   <form id="edit-form">
-    <h2>編集</h2>
+    <h2 id="edit-dialog-title">編集</h2>
     <label class="field">
       <span class="field-label" id="edit-title-label">タイトル</span>
       <input type="text" id="edit-title-input" maxlength="100" required>
     </label>
-    <div class="field-row">
-      <label class="field">
-        <span class="field-label">日付</span>
-        <input type="date" id="edit-date" required>
-      </label>
-      <label class="field">
-        <span class="field-label">開始</span>
-        <input type="time" id="edit-start" step="300" required>
-      </label>
-      <label class="field">
-        <span class="field-label">終了</span>
-        <input type="time" id="edit-end" step="300">
-      </label>
+
+    <!-- Site fields -->
+    <div id="edit-site-fields">
+      <div class="field-row">
+        <label class="field">
+          <span class="field-label">日付</span>
+          <input type="date" id="edit-date" required>
+        </label>
+        <label class="field">
+          <span class="field-label">開始</span>
+          <input type="time" id="edit-start" step="300" required>
+        </label>
+        <label class="field">
+          <span class="field-label">終了</span>
+          <input type="time" id="edit-end" step="300">
+        </label>
+      </div>
     </div>
+
+    <!-- Event slot fields -->
+    <div id="edit-event-fields" hidden>
+      <div class="field">
+        <span class="field-label">候補日時</span>
+        <div id="edit-slots"></div>
+        <button type="button" id="edit-add-slot-btn" class="add-slot-btn">+ 候補日時を追加</button>
+      </div>
+    </div>
+
     <label class="field">
       <span class="field-label">詳細・作業内容</span>
       <input type="text" id="edit-details" maxlength="500">
     </label>
     <label class="field">
-      <span class="field-label">地図URL（Google マップ等）</span>
+      <span class="field-label">地図URL</span>
       <input type="url" id="edit-map" maxlength="500" placeholder="https://maps.app.goo.gl/...">
     </label>
     <div class="form-actions">

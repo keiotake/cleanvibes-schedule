@@ -398,6 +398,110 @@ button.danger:hover { background: var(--absent); color: white; }
   gap: 12px;
   align-items: end;
 }
+.add-form-event {
+  display: block;
+}
+
+.entry-tag {
+  display: inline-block;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #7c3aed;
+  background: #ede9fe;
+  padding: 4px 10px;
+  border-radius: 999px;
+  letter-spacing: 0.05em;
+}
+
+.event-card { border-left-color: #7c3aed; }
+
+.slots-section {
+  margin-top: 10px;
+  padding: 12px 14px;
+  background: #faf5ff;
+  border-radius: 10px;
+}
+.slots-header {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: #6b21a8;
+  margin-bottom: 8px;
+}
+
+.slot-row {
+  padding: 10px 0;
+  border-bottom: 1px dashed #d8b4fe;
+}
+.slot-row:last-child { border-bottom: none; }
+.slot-row:first-of-type { padding-top: 4px; }
+
+.slot-date {
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-bottom: 6px;
+}
+
+.slot-chips {
+  margin-bottom: 8px;
+}
+.slot-chips .chip-row {
+  padding: 3px 0;
+  border-bottom: none;
+}
+
+.slot-vote {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+/* Slot input rows in the add/edit forms */
+.slot-input-row {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr auto;
+  gap: 8px;
+  margin-bottom: 8px;
+  align-items: center;
+}
+.slot-input-row input {
+  min-height: 38px;
+  font-size: 0.9rem;
+  padding: 6px 10px;
+}
+.slot-remove-btn {
+  background: transparent;
+  color: var(--absent);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  width: 36px;
+  height: 36px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  padding: 0;
+  cursor: pointer;
+}
+.slot-remove-btn:hover {
+  background: var(--absent);
+  color: white;
+  border-color: var(--absent);
+}
+
+.add-slot-btn {
+  margin-top: 6px;
+  padding: 8px 16px;
+  background: white;
+  color: var(--primary);
+  border: 1.5px dashed var(--primary);
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.add-slot-btn:hover {
+  background: var(--primary);
+  color: white;
+}
 .field-title { grid-column: 1 / -1; }
 .field-detail { grid-column: 1 / -1; }
 .field-submit { grid-column: 1 / -1; display: flex; }
@@ -439,4 +543,7 @@ button.danger:hover { background: var(--absent); color: white; }
   .field-row { grid-template-columns: 1fr; }
   .tab { padding: 10px 8px; font-size: 0.92rem; }
   .vote-btn.vote-clear { margin-left: 0; }
+  .slot-input-row { grid-template-columns: 1fr 1fr; gap: 6px; }
+  .slot-input-row .slot-date-input { grid-column: 1 / -1; }
+  .slot-input-row .slot-remove-btn { grid-column: 2; justify-self: end; width: 100%; }
 }
