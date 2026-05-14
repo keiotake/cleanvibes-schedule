@@ -2,8 +2,8 @@ name: Keep Render services awake
 
 on:
   schedule:
-    # 10分おきに実行（Render無料プランの15分アイドル休止を回避）
-    - cron: '*/10 * * * *'
+    # 5分おきに実行（Render無料プランの15分アイドル休止を確実に回避）
+    - cron: '*/5 * * * *'
   workflow_dispatch:
 
 jobs:
@@ -13,12 +13,12 @@ jobs:
     steps:
       - name: Ping CleanVibes
         run: |
-          code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 60 "https://cleanvibes.onrender.com/api/entries?type=site")
+          code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 60 "https://cleanvibes.onrender.com/healthz")
           echo "cleanvibes: $code"
           [ "$code" = "200" ] || exit 1
       - name: Ping Chousei
         if: always()
         run: |
-          code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 60 "https://chousei-76e7.onrender.com/api/members")
+          code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 60 "https://chousei-76e7.onrender.com/healthz")
           echo "chousei: $code"
           [ "$code" = "200" ] || exit 1

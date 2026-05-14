@@ -10,9 +10,18 @@ if (!process.env.DATABASE_URL) {
   process.exit(1);
 }
 
+// Use Neon pooler endpoint for connection-pooling speed (much faster cold paths)
+function toPoolerUrl(url) {
+  if (!url || url.includes('-pooler.')) return url;
+  return url.replace(/(ep-[^.]+)\./, '$1-pooler.');
+}
+
 const pool = new pg.Pool({
-  connectionString: process.env.DATABASE_URL,
+  connectionString: toPoolerUrl(process.env.DATABASE_URL),
   ssl: { rejectUnauthorized: false },
+  max: 5,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 8000,
 });
 
 async function init() {
@@ -376,8 +385,13 @@ app.use((err, req, res, next) => {
   res.status(500).json({ error: 'internal server error' });
 });
 
+// Health check endpoint (used by keep-alive to wake services without DB hit)
+app.get('/healthz', (req, res) => res.json({ ok: true, ts: Date.now() }));
+
 const PORT = process.env.PORT || 3000;
-init().then(() => {
+init().then(async () => {
+  // Pre-warm DB connection
+  try { await pool.query('SELECT 1'); } catch (e) { console.warn('warmup query failed:', e.message); }
   app.listen(PORT, () => console.log(`CleanVibes 起動: ポート ${PORT}`));
 }).catch(err => {
   console.error('DB init failed:', err);
