@@ -11,14 +11,14 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 5
     steps:
-      - name: Ping CleanVibes
+      - name: Ping CleanVibes (DB warm)
         run: |
-          code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 60 "https://cleanvibes.onrender.com/healthz")
+          code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 90 "https://cleanvibes.onrender.com/api/entries?type=site")
           echo "cleanvibes: $code"
           [ "$code" = "200" ] || exit 1
-      - name: Ping Chousei
+      - name: Ping Chousei (DB warm)
         if: always()
         run: |
-          code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 60 "https://chousei-76e7.onrender.com/healthz")
+          code=$(curl -s -o /dev/null -w "%{http_code}" --max-time 90 "https://chousei-76e7.onrender.com/api/inspections")
           echo "chousei: $code"
           [ "$code" = "200" ] || exit 1
